@@ -1,4 +1,3 @@
-from signal import SIG_BLOCK
 import time
 import os
 from pymongo import MongoClient
@@ -31,7 +30,7 @@ def chromeConfigurations():
   driver = webdriver.Chrome(options=options)
   return driver
 
-def openWindow(driver):
+def openSIReport(driver):
   driver.get("https://smartinterviews.in/")
   driver.maximize_window()
 
@@ -48,12 +47,11 @@ def openWindow(driver):
 
   driver.find_element_by_xpath('/html/body/app-root/auth-page/div/div/mat-card/form/button').click()
   time.sleep(10)
-  # print(driver.current_window_handle)
 
   driver.execute_script("window.open('https://smartinterviews.in/report/GRIET-2023')")
   time.sleep(15)
   driver.switch_to.window(driver.window_handles[-1])
-  # print(driver.current_window_handle)
+
   driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/mat-toolbar/button[2]/span[1]/mat-icon').click()
   time.sleep(2)
   driver.find_element_by_xpath('//*[@id="mat-menu-panel-4"]/div/button[1]').click()
@@ -93,20 +91,21 @@ def getTotalScore(driver, i):
 def insertToDB(driver, collection):
   for i in range(1, 129):
     DET = getStudentDetails(driver, i)
-    HR = getHackerRankScores(driver, i)
-    SI = getSmartInterviewsScores(driver, i)
-    LC = getLeetCodeScores(driver, i)
-    IB = getInterviewBitScores(driver, i)
-    CC = getCodeChefScores(driver, i)
-    CF = getCodeForcesScores(driver, i)
-    SJ = getSpojScores(driver, i)
-    IC = getInternalContestScores(driver, i)
+    HR  = getHackerRankScores(driver, i)
+    SI  = getSmartInterviewsScores(driver, i)
+    LC  = getLeetCodeScores(driver, i)
+    IB  = getInterviewBitScores(driver, i)
+    CC  = getCodeChefScores(driver, i)
+    CF  = getCodeForcesScores(driver, i)
+    SJ  = getSpojScores(driver, i)
+    IC  = getInternalContestScores(driver, i)
     TOT = getTotalScore(driver, i)
-    break
+    break # To test for initial values
 
-# collection = connectToDB()
+collection = connectToDB()
 driver = chromeConfigurations()
-newDriver = openWindow(driver)
+newDriver = openSIReport(driver)
 insertToDB(newDriver)
 
-# TODO: Add batch data to mogodb database
+# TODO: Finalise schema of DataBase
+# TODO: Add batch data to MongoDB Database
