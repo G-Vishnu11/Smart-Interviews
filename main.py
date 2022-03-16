@@ -1,3 +1,4 @@
+import string
 import time
 import os
 from pymongo import MongoClient
@@ -6,6 +7,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from dotenv import load_dotenv
+
+from insert import insertRecordToDB
 
 load_dotenv() # Loading Environment Varialbles
 
@@ -58,39 +61,77 @@ def openSIReport(driver):
   time.sleep(10)
   return driver
 
-def getStudentDetails(driver, i):
-  return
+def getStudentDetails(driver, ind):
+  ROLL = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + ind + ']/td[2]/span').text()
+  NAME = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + ind + ']/td[3]/div/span[1]').text()
+  USERNAME = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + ind + ']/td[5]/a').text()
+  return [ROLL, NAME, USERNAME]
+
+def getStudentRank(driver, i):
+  RANK = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' +str(i) + ']/td[1]').text()
+  return RANK
+
+def getStudentBranch(driver, i):
+  BRANCH = driver.get_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' +str(i) + ']/td[4]/span').text()
+  return BRANCH
 
 def getHackerRankScores(driver, i):
-  return
+  DS = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[6]/span').text()
+  ALGO = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[7]/span').text()
+  TOT = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) +  ']/td[8]/span').text()
+  return [DS, ALGO, TOT]
 
 def getSmartInterviewsScores(driver, i):
-  return
+  BASIC = driver.find_element_by_id('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[9]/span').text()
+  PRIMARY = driver.find_element_by_id('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[10]/span').text()
+  return [BASIC, PRIMARY]
 
 def getLeetCodeScores(driver, i):
-  return
+  LCPS = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[11]/span').text()
+  LCNC = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[12]/span').text()
+  LCR = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[13]/span').text()
+  TOT = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[14]/span').text()
+  return [LCPS, LCNC, LCR, TOT]
 
 def getInterviewBitScores(driver, i):
-  return
+  IBS = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[15]/span').text()
+  TOT = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[16]/span').text()
+  return [IBS, TOT]
 
 def getCodeChefScores(driver, i):
-  return
+  CCPS = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[17]/span').text()
+  CCNC = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[18]/span').text()
+  CCR = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[19]/span').text()
+  TOT = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' +str(i) + ']/td[20]/span').text()
+  return [CCPS, CCNC, CCR, TOT]
 
 def getCodeForcesScores(driver, i):
-  return
+  CFPS = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[21]/span').text()
+  CFNC = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[22]/span').text()
+  CFR = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[23]/span').text()
+  TOT = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[24]/span').text()
+  return [CFPS, CFNC, CFR, TOT]
 
 def getSpojScores(driver, i):
-  return
+  SPS = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[25]/span').text()
+  SP = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[26]/span').text()
+  TOT = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[27]/span').text()
+  return [SPS, SP, TOT]
 
 def getInternalContestScores(driver, i):
-  return
+  IC1 = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[29]').text()
+  IC2 = driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[30]').text()
+  return [IC1, IC2]
 
 def getTotalScore(driver, i):
-  return
+  TOTAL = driver.get_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/div/table/tbody/tr[' + str(i) + ']/td[28]/span').text()
+  return TOTAL
 
-def insertToDB(driver, collection):
+def getDetails():
   for i in range(1, 129):
-    DET = getStudentDetails(driver, i)
+    DET = getStudentDetails(driver, str(i))
+    RANK = getStudentRank(driver, i)
+    BRANCH = getStudentBranch(driver, i)
     HR  = getHackerRankScores(driver, i)
     SI  = getSmartInterviewsScores(driver, i)
     LC  = getLeetCodeScores(driver, i)
@@ -100,12 +141,16 @@ def insertToDB(driver, collection):
     SJ  = getSpojScores(driver, i)
     IC  = getInternalContestScores(driver, i)
     TOT = getTotalScore(driver, i)
-    break # To test for initial values
+  return [DET, RANK, BRANCH, HR, SI, LC, IB, CC, CF, SJ, IC, TOT]
 
-collection = connectToDB()
+# collection = connectToDB()
 driver = chromeConfigurations()
 newDriver = openSIReport(driver)
-insertToDB(newDriver)
+details = getDetails(newDriver)
 
-# TODO: Finalise schema of DataBase
+print(details)
+# insertRecordToDB(details)
+
+# PROBLEM : str object is not callable
+
 # TODO: Add batch data to MongoDB Database
