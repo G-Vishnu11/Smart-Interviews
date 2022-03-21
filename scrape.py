@@ -28,6 +28,7 @@ def connectToDB():
 
 def chromeConfigurations():
   options = webdriver.ChromeOptions()
+  options.add_argument('--headless')
   options.add_experimental_option('excludeSwitches', ['enable-logging'])
   driver = webdriver.Chrome(options=options)
   return driver
