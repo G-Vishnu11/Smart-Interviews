@@ -1,0 +1,24 @@
+name: Auto Scrape
+
+on:
+  schedule: # 03:00 JST == 18:00 UTC
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: update database
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        env:
+          MONGO_CLOUD: ${{secrets.MONGO_CLOUD}}
+          USER_NAME: ${{secrets.USER_NAME}}
+          PASSWORD: ${{secrets.PASSWORD}}
+        with:
+          python-version: "3.x" # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: "x64" # optional x64 or x86. Defaults to x64 if not specified
+      - run: |
+          pip install -r requirements.txt 
+          python scrape.py
