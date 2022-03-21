@@ -43,10 +43,12 @@ def openSIReport(driver):
   Login.click()
 
   UserName = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="autofocus"]')))
-  UserName.send_keys(getUserName())
+  # UserName.send_keys(getUserName())
+  UserName.send_keys("vishnuvardhanga1")
   time.sleep(5) # Used for overriding Captcha
   Password = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="password"]')))
-  Password.send_keys(getPassword())
+  # Password.send_keys(getPassword())
+  Password.send_keys("Vi$hnuVVR@143")
   time.sleep(5) # Used for overriding Captcha
   driver.find_element_by_xpath('/html/body/app-root/auth-page/div/div/mat-card/form/button').click()
   time.sleep(10)
