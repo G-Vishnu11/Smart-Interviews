@@ -168,8 +168,8 @@ for i in range(1, 129):
   details = getDetails(newDriver, i)
   insertRecordToDB(collection, details)
 
-# Added Batch Data to DataBase
 
-# TODO : Create auto scrape.py and add github workflow
 # TODO : Scrape Timeline Data from Smart Interviews
+# TODO : Initiate building API
+# TODO : Start User Interface
 
