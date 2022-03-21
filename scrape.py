@@ -58,7 +58,7 @@ def openSIReport(driver):
   driver.switch_to.window(driver.window_handles[-1])
   time.sleep(10)
   driver.find_element_by_xpath('/html/body/app-root/app-report/mat-sidenav-container/mat-sidenav-content/mat-toolbar/button[2]/span[1]/mat-icon').click()
-  time.sleep(2)
+  time.sleep(5)
   driver.find_element_by_xpath('//*[@id="mat-menu-panel-4"]/div/button[1]').click()
   time.sleep(10)
   return driver
