@@ -171,7 +171,4 @@ for i in range(1, 129):
   details = getDetails(newDriver, i)
   updateRecordInDB(collection, details)
 
-''' 
-ERROR : raise ServerSelectionTimeoutError(
-pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [Errno 111] Connection refused, Timeout: 30s, Topology Description: <TopologyDescription id: 6238b2a0b33acca307583ba9, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 111] Connection refused')>]>
-'''
+# TODO: Hide Environment Variables
