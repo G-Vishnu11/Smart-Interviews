@@ -1,8 +1,8 @@
 name: Auto Scrape
 
 on:
-  schedule: # 03:00 JST == 18:00 UTC
-    - cron: "0 18 * * *"
+  schedule: # 06:00 UTC
+    - cron: "0 6 * * *"
   workflow_dispatch:
 
 jobs:
